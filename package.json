@@ -1,0 +1,23 @@
+{
+  "name": "keymixer-client",
+  "version": "0.0.1",
+  "description": "KeyMixer service client.",
+  "main": "index.js",
+  "dependencies": {
+    "react-webpack-typescript-starter": "^0.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/keymixer/client.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/keymixer/client/issues"
+  },
+  "homepage": "https://gitlab.com/keymixer/client#readme"
+}
