@@ -1,6 +1,7 @@
 import * as React from "react";
 import { hot } from "react-hot-loader";
 import Header from "./Header";
+import Footer from "./Footer";
 
 import "./../assets/scss/App.scss";
 
@@ -10,6 +11,12 @@ const App = (props: AppProps) => {
   return (
     <div className="app">
       <Header />
+
+      {
+        // * And render content here
+      }
+
+      <Footer />
     </div>
   );
 };
