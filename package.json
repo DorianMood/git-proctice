@@ -29,7 +29,8 @@
     "start": "yarn run start-dev",
     "start-dev": "webpack-dev-server --config=configs/webpack/dev.js",
     "start-prod": "yarn run build && node express.js",
-    "test": "jest --coverage --watchAll --config=configs/jest.json"
+    "test": "jest --coverage --watchAll --config=configs/jest.json",
+    "plop": "plop"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
@@ -55,6 +56,7 @@
     "image-webpack-loader": "^6.0.0",
     "jest": "^26.1.0",
     "node-sass": "^4.14.1",
+    "plop": "^2.7.4",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -70,5 +72,9 @@
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@types/material-ui": "^0.21.8"
+  }
 }
