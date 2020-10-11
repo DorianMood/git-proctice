@@ -7,8 +7,10 @@ export interface FooterProps {}
 
 export default function Footer(props: FooterProps) {
   return (
-    <Box>
-      <Typography variant="caption">Buttom text.</Typography>
-    </Box>
+    <footer>
+      <Box>
+        <Typography variant="caption">Footer text.</Typography>
+      </Box>
+    </footer>
   );
 }
