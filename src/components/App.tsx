@@ -4,6 +4,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 import "./../assets/scss/App.scss";
+import ProjectList from "./ProjectList";
 
 interface AppProps {}
 
@@ -15,7 +16,8 @@ const App = (props: AppProps) => {
       {
         // * And render content here
       }
-
+      <ProjectList />
+      
       <Footer />
     </div>
   );
