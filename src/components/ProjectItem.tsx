@@ -1,46 +1,81 @@
 import * as React from "react";
 
+import { Project } from "./../types/api";
 import {
   Box,
-  Button,
   Card,
-  CardActionArea,
-  CardActions,
   CardContent,
-  Typography,
+  Grid,
+  Button,
+  Typography
 } from "@material-ui/core";
 
-import "./../assets/scss/Footer.scss";
-
-export interface ProjectItemProps {
-    id: number;
+interface ProjectItemProps {
+  project: Project;
+  index: number;
 }
 
 export default function ProjectItem(props: ProjectItemProps) {
 
-  const { id } = props;
+  const { project, index } = props;
 
   return (
-    <Card>
-      <CardActionArea>
+    <Box component="div" my={2}>
+      <Card>
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {id}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm container>
+              <Grid item xs={8} container direction="column" spacing={2}>
+                <Grid item xs>
+                  <Typography variant="subtitle1">{index}</Typography>
+                  <Typography gutterBottom variant="subtitle1">
+                    {project.name}
+                  </Typography>
+                  <Typography variant="body2" gutterBottom>
+                    {project.description}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    ID: {project.id}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography variant="body2" style={{ cursor: 'pointer' }}>
+                  <Button variant="contained" color="primary">Remove</Button>
+                </Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography variant="body2" style={{ cursor: 'pointer' }}>
+                  <Button variant="contained" color="primary">More</Button>
+                </Typography>
+                
+              </Grid>
+
+            </Grid>
+          </Grid>
         </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions>
-    </Card>
+      </Card>
+    </Box>
   );
+
+  // <Card>
+  //     <CardActionArea>
+  //       <CardContent>
+  //         <Typography gutterBottom variant="h5" component="h2">
+  //           {project.name}
+  //         </Typography>
+  //         <Typography variant="body2" color="textSecondary" component="p">
+  //           {project.description}
+  //         </Typography>
+  //       </CardContent>
+  //     </CardActionArea>
+  //     <CardActions>
+  //       <Button size="small" color="primary">
+  //         {project.description}
+  //       </Button>
+  //       <Button size="small" color="primary">
+  //         {project.description}
+  //       </Button>
+  //     </CardActions>
+  //   </Card>
 }
