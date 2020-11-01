@@ -5,9 +5,11 @@ import {
   Theme,
   makeStyles,
   createStyles,
+  Container,
 } from "@material-ui/core";
 
 import ProjectList from "./ProjectList";
+import ProjectNew from "./ProjectNew";
 import "./../assets/scss/ProjectsPage.scss";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -43,23 +45,22 @@ export default function ProjectsPage(props: ProjectPageProps) {
 
   const modalBody = (
     <div className={classes.paper}>
-      <h2 id="simple-modal-title">Create new project</h2>
-      <p id="simple-modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p>
+      <ProjectNew />
     </div>
   );
 
   return (
     <>
+    <Container style={{marginTop: 20}}>
       <Button
         variant="outlined"
         size="large"
         color="primary"
         onClick={handleOpen}
       >
-        Large
+       Add 
       </Button>
+    </Container>
       <Modal
         open={open}
         onClose={handleClose}

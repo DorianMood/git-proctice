@@ -1,4 +1,7 @@
 import * as React from "react";
+
+import { Link } from "react-router-dom";
+
 import { AppBar, IconButton, Tab, Tabs, Toolbar } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 
@@ -22,8 +25,8 @@ export default function Header(props: HeaderProps) {
           <MenuIcon />
         </IconButton>
         <Tabs value={tab} onChange={onTabChange}>
-          <Tab label="Мои проекты" />
-          <Tab label="Инструменты" />
+          <Tab component={Link} to={'/projects'} label="Мои проекты" />
+          <Tab component={Link} to={'/profile'} label="Профиль" />
           <Tab label="Статистика" />
         </Tabs>
       </Toolbar>
