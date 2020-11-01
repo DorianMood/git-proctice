@@ -10,6 +10,7 @@ import Footer from "./Footer";
 
 import ProjectsPage from "./ProjectsPage";
 import "./../assets/scss/App.scss";
+import TemplatePage from "./TemplatePage";
 
 interface AppProps {}
 
@@ -25,10 +26,16 @@ const App = (props: AppProps) => {
             </Box>
           </Route>
           <Route path="/profile">
-
+            profile
           </Route>
           <Route path="/companies">
-            
+            campanigns
+          </Route>
+          <Route path="/templates">
+            <TemplatePage />
+          </Route>
+          <Route path="/keywords">
+            keywords
           </Route>
           <Route path="/">
             <Box>
