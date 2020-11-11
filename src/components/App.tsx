@@ -11,6 +11,7 @@ import Footer from "./Footer";
 import ProjectsPage from "./ProjectsPage";
 import "./../assets/scss/App.scss";
 import TemplatePage from "./TemplatePage";
+import ProjectPage from "./ProjectPage";
 
 interface AppProps {}
 
@@ -20,6 +21,8 @@ const App = (props: AppProps) => {
         <Header />
 
         <Switch>
+          
+          {/* Top bar menu routes */}
           <Route path="/projects">
             <Box>
               <ProjectsPage />
@@ -28,15 +31,15 @@ const App = (props: AppProps) => {
           <Route path="/profile">
             profile
           </Route>
-          <Route path="/companies">
-            campanigns
-          </Route>
           <Route path="/templates">
             <TemplatePage />
           </Route>
-          <Route path="/keywords">
-            keywords
+
+          {/* Routes */}
+          <Route path="/project/:id">
+            <ProjectPage />
           </Route>
+
           <Route path="/">
             <Box>
               <ProjectsPage />

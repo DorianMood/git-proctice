@@ -1,23 +1,23 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+
+import { Company } from "../types/api";
 import {
   Box,
   Card,
   CardContent,
   Grid,
   Button,
-  Typography,
+  Typography
 } from "@material-ui/core";
 
-import { Project } from "./../types/api";
-
-interface ProjectItemProps {
-  project: Project;
+interface CompanyItemProps {
+  company: Company;
   index: number;
 }
 
-export default function ProjectItem(props: ProjectItemProps) {
-  const { project, index } = props;
+export default function CompanyItem(props: CompanyItemProps) {
+
+  const { company, index } = props;
 
   return (
     <Box component="div" my={2}>
@@ -29,35 +29,25 @@ export default function ProjectItem(props: ProjectItemProps) {
                 <Grid item xs>
                   <Typography variant="subtitle1">{index}</Typography>
                   <Typography gutterBottom variant="subtitle1">
-                    {project.name}
-                  </Typography>
-                  <Typography variant="body2" gutterBottom>
-                    {project.description}
+                    {company.name}
                   </Typography>
                   <Typography variant="body2" color="textSecondary">
-                    ID: {project.id}
+                    ID: {company.id}
                   </Typography>
                 </Grid>
               </Grid>
               <Grid item xs={2}>
-                <Typography variant="body2" style={{ cursor: "pointer" }}>
-                  <Button variant="contained" color="primary">
-                    Remove
-                  </Button>
+                <Typography variant="body2" style={{ cursor: 'pointer' }}>
+                  <Button variant="contained" color="primary">Remove</Button>
                 </Typography>
               </Grid>
               <Grid item xs={2}>
-                <Typography variant="body2" style={{ cursor: "pointer" }}>
-                  <Link
-                    to={`/project/${project.id}`}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <Button variant="contained" color="primary">
-                      More
-                    </Button>
-                  </Link>
+                <Typography variant="body2" style={{ cursor: 'pointer' }}>
+                  <Button variant="contained" color="primary">More</Button>
                 </Typography>
+                
               </Grid>
+
             </Grid>
           </Grid>
         </CardContent>

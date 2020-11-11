@@ -28,8 +28,6 @@ export default function Header(props: HeaderProps) {
           <Tab component={Link} to={'/projects'} label="Мои проекты" />
           <Tab component={Link} to={'/profile'} label="Профиль" />
           <Tab component={Link} to={'/templates'} label="Шаблоны" />
-          <Tab component={Link} to={'/keywords'} label="Ключевые слова" />
-          <Tab label="Статистика" />
         </Tabs>
       </Toolbar>
     </AppBar>
