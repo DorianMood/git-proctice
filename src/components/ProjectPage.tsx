@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import "./../assets/scss/ProjectPage.scss";
 import CompanyList from "./CompanyList";
+import DataTable from "./DataTable";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}));
 
@@ -39,6 +40,7 @@ export default function ProjectPage(props: ProjectPageProps) {
         Add
       </Button>
       <CompanyList />
+      <DataTable />
       <Modal
         open={open}
         onClose={handleClose}

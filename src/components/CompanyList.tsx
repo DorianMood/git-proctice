@@ -16,25 +16,58 @@ import {
 
 import { Company } from "../types/api";
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
-  table: {
-    margin: "0 20px",
-    maxWidth: "97%"
-  }
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    table: {
+      margin: "0 20px",
+      maxWidth: "97%",
+    },
+  }),
+);
 
 export interface CompanyListProps {}
 
 export default function CompanyList(props: CompanyListProps) {
-
   const classes = useStyles();
 
-  let x: Array<Company> = [
-    { id: 1, name: "Company 1" },
-    { id: 2, name: "Company 2" },
-    { id: 3, name: "Company 3" },
+  let companyList: Array<Company> = [
+    {
+      id: 1,
+      projectId: 1,
+      name: "Company 1",
+      url: "company1.com",
+      displayUrl: {
+        yandex: "yandex.company1.com",
+        google: ["google1.company1.com", "google2.company1.com"],
+      },
+      regions: [
+        {
+          id: 1,
+          name: "EKB",
+        },
+        {
+          id: 2,
+          name: "CHL",
+        },
+      ],
+      businessCards: [
+        {
+          id: 1,
+          name: "card name",
+          workingHours: "10:00 - 21:00",
+          tel: "88005553535",
+          about: "This is a company business card",
+          street: "Gotvalda",
+          house: "11",
+          city: "Yekaterinburg",
+          country: "Russia",
+        },
+      ],
+      keys: [],
+      minusKeys: [],
+    },
   ];
-  
+
   return (
     <>
       <TableContainer component={Paper} className={classes.table}>
@@ -54,6 +87,20 @@ export default function CompanyList(props: CompanyListProps) {
             </TableRow>
           </TableHead>
           <TableBody>
+            {companyList.map((item, index) => (
+              <TableRow>
+                <TableCell>{item.id}</TableCell>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.url}</TableCell>
+                <TableCell>{item.displayUrl.yandex}</TableCell>
+                <TableCell>{item.displayUrl.google[0]}</TableCell>
+                <TableCell>{item.displayUrl.google[1]}</TableCell>
+                <TableCell>100$</TableCell>
+                <TableCell>{item.regions[0].name}</TableCell>
+                <TableCell>{item.businessCards[0].id}</TableCell>
+                <TableCell>13</TableCell>
+              </TableRow>
+            ))}
             <TableRow>
               <TableCell>1</TableCell>
               <TableCell>Company 1</TableCell>
@@ -75,8 +122,12 @@ export default function CompanyList(props: CompanyListProps) {
         count={15}
         rowsPerPage={5}
         page={0}
-        onChangePage={() => { console.log("change page") }}
-        onChangeRowsPerPage={ () => { console.log("change rows per page") } }
+        onChangePage={() => {
+          console.log("change page");
+        }}
+        onChangeRowsPerPage={() => {
+          console.log("change rows per page");
+        }}
       />
     </>
   );
