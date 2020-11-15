@@ -28,19 +28,11 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
-interface Data {
-  calories: number;
-  carbs: number;
-  fat: number;
-  name: string;
-  protein: number;
-}
-
-function createData(data: Data): Data {
+function createData(data: object): object {
   return data;
 }
 
-const rows = [
+const defaultRows = [
   createData({name: "cupcake", calories: 305, protein: 3.7, fat: 67, carbs: 4.3}),
   createData({name: "Donut", calories: 452,protein: 25.0,fat: 51,carbs: 4.9}),
   createData({name: "Eclair", calories: 262,protein: 16.0,fat: 24,carbs: 6.0}),
@@ -92,12 +84,12 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
 
 interface HeadCell {
   disablePadding: boolean;
-  id: keyof Data;
+  id: string;
   label: string;
   numeric: boolean;
 }
 
-const headCells: HeadCell[] = [
+const headCells: object[] = [
   {
     id: "name",
     numeric: false,
@@ -110,12 +102,14 @@ const headCells: HeadCell[] = [
   { id: "protein", numeric: true, disablePadding: false, label: "Protein (g)" },
 ];
 
+
+
 interface EnhancedTableProps {
   classes: ReturnType<typeof useStyles>;
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof Data,
+    property: number | string,
   ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -133,7 +127,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     rowCount,
     onRequestSort,
   } = props;
-  const createSortHandler = (property: keyof Data) => (
+  const createSortHandler = (property: number | string) => (
     event: React.MouseEvent<unknown>,
   ) => {
     onRequestSort(event, property);
@@ -152,18 +146,18 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
-            padding={headCell.disablePadding ? "none" : "default"}
-            sortDirection={orderBy === headCell.id ? order : false}
+            key={headCell['id']}
+            align={headCell['numeric'] ? "right" : "left"}
+            padding={headCell['disablePadding'] ? "none" : "default"}
+            sortDirection={orderBy === headCell['id'] ? order : false}
           >
             <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
+              active={orderBy === headCell['id']}
+              direction={orderBy === headCell['id'] ? order : "asc"}
+              onClick={createSortHandler(headCell['id'])}
             >
-              {headCell.label}
-              {orderBy === headCell.id ? (
+              {headCell['label']}
+              {orderBy === headCell['id'] ? (
                 <span className={classes.visuallyHidden}>
                   {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </span>
@@ -274,18 +268,26 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function DataTable() {
+interface DataTableProps {
+  rows?: Array<object>;
+  columns?: Array<object>;
+}
+
+export default function DataTable(props: DataTableProps) {
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof Data>("calories");
+  const [orderBy, setOrderBy] = React.useState<string>("calories");
   const [selected, setSelected] = React.useState<string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  // Get data from props
+  const rows: Array<object>= props.rows ? props.rows : defaultRows;
+
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof Data,
+    property: string,
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -294,7 +296,7 @@ export default function DataTable() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = rows.map((n) => n['name']);
       setSelected(newSelecteds);
       return;
     }
@@ -365,19 +367,19 @@ export default function DataTable() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name.toString());
+                  const isItemSelected = isSelected(row['name'].toString());
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
                       onClick={(event) =>
-                        handleClick(event, row.name.toString())
+                        handleClick(event, row['name'].toString())
                       }
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row['name']}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -392,12 +394,12 @@ export default function DataTable() {
                         scope="row"
                         padding="none"
                       >
-                        {row.name}
+                        {row['name']}
                       </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="right">{row['calories']}</TableCell>
+                      <TableCell align="right">{row['fat']}</TableCell>
+                      <TableCell align="right">{row['carbs']}</TableCell>
+                      <TableCell align="right">{row['protein']}</TableCell>
                     </TableRow>
                   );
                 })}

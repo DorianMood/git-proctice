@@ -26,8 +26,8 @@ export default function Header(props: HeaderProps) {
         </IconButton>
         <Tabs value={tab} onChange={onTabChange}>
           <Tab component={Link} to={'/projects'} label="Мои проекты" />
-          <Tab component={Link} to={'/profile'} label="Профиль" />
-          <Tab component={Link} to={'/templates'} label="Шаблоны" />
+          <Tab component={Link} to={'/conditions'} label="Условия показа" />
+          <Tab component={Link} to={'/ststistics'} label="Статистика" />
         </Tabs>
       </Toolbar>
     </AppBar>
