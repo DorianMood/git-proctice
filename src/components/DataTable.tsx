@@ -22,7 +22,7 @@ import {
   IconButton,
   Tooltip,
   FormControlLabel,
-  Switch
+  Switch,
 } from "@material-ui/core";
 
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -33,19 +33,97 @@ function createData(data: object): object {
 }
 
 const defaultRows = [
-  createData({name: "cupcake", calories: 305, protein: 3.7, fat: 67, carbs: 4.3}),
-  createData({name: "Donut", calories: 452,protein: 25.0,fat: 51,carbs: 4.9}),
-  createData({name: "Eclair", calories: 262,protein: 16.0,fat: 24,carbs: 6.0}),
-  createData({name: "Frozen yoghurt", calories: 159,protein: 6.0,fat: 24,carbs: 4.0}),
-  createData({name: "Gingerbread", calories: 356,protein: 16.0,fat: 49,carbs: 3.9}),
-  createData({name: "Honeycomb", calories: 408,protein: 3.2,fat: 87,carbs: 6.5}),
-  createData({name: "Ice cream: sandwich",calories: 237, protein: 9.0,fat: 37, carbs: 4.3}),
-  createData({name: "Jelly Bean: ", calories: 375, protein: 0.0, fat: 94, carbs: 0.0}),
-  createData({name: "KitKat", calories: 518,protein: 26.0,fat: 65,carbs: 7.0}),
-  createData({name: "Lollipop", calories: 392,protein: 0.2,fat: 98,carbs: 0.0}),
-  createData({name: "Marshmallow", calories: 318,protein: 0.81,fat: 2.1, carbs:0}),
-  createData({name: "Nougat", calories: 360,protein: 19.0,fat: 9,carbs: 37.0}),
-  createData({name: "Oreo", calories: 437,protein: 18.0,fat: 63,carbs: 4.0}),
+  createData({
+    name: "cupcake",
+    calories: 305,
+    protein: 3.7,
+    fat: 67,
+    carbs: 4.3,
+  }),
+  createData({
+    name: "Donut",
+    calories: 452,
+    protein: 25.0,
+    fat: 51,
+    carbs: 4.9,
+  }),
+  createData({
+    name: "Eclair",
+    calories: 262,
+    protein: 16.0,
+    fat: 24,
+    carbs: 6.0,
+  }),
+  createData({
+    name: "Frozen yoghurt",
+    calories: 159,
+    protein: 6.0,
+    fat: 24,
+    carbs: 4.0,
+  }),
+  createData({
+    name: "Gingerbread",
+    calories: 356,
+    protein: 16.0,
+    fat: 49,
+    carbs: 3.9,
+  }),
+  createData({
+    name: "Honeycomb",
+    calories: 408,
+    protein: 3.2,
+    fat: 87,
+    carbs: 6.5,
+  }),
+  createData({
+    name: "Ice cream: sandwich",
+    calories: 237,
+    protein: 9.0,
+    fat: 37,
+    carbs: 4.3,
+  }),
+  createData({
+    name: "Jelly Bean: ",
+    calories: 375,
+    protein: 0.0,
+    fat: 94,
+    carbs: 0.0,
+  }),
+  createData({
+    name: "KitKat",
+    calories: 518,
+    protein: 26.0,
+    fat: 65,
+    carbs: 7.0,
+  }),
+  createData({
+    name: "Lollipop",
+    calories: 392,
+    protein: 0.2,
+    fat: 98,
+    carbs: 0.0,
+  }),
+  createData({
+    name: "Marshmallow",
+    calories: 318,
+    protein: 0.81,
+    fat: 2.1,
+    carbs: 0,
+  }),
+  createData({
+    name: "Nougat",
+    calories: 360,
+    protein: 19.0,
+    fat: 9,
+    carbs: 37.0,
+  }),
+  createData({
+    name: "Oreo",
+    calories: 437,
+    protein: 18.0,
+    fat: 63,
+    carbs: 4.0,
+  }),
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -72,7 +150,7 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
+function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) : Array<T> {
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -82,14 +160,14 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-interface HeadCell {
+export interface HeadCell {
   disablePadding: boolean;
   id: string;
   label: string;
   numeric: boolean;
 }
 
-const headCells: object[] = [
+const defaultColumns: Array<HeadCell> = [
   {
     id: "name",
     numeric: false,
@@ -102,8 +180,6 @@ const headCells: object[] = [
   { id: "protein", numeric: true, disablePadding: false, label: "Protein (g)" },
 ];
 
-
-
 interface EnhancedTableProps {
   classes: ReturnType<typeof useStyles>;
   numSelected: number;
@@ -115,6 +191,7 @@ interface EnhancedTableProps {
   order: Order;
   orderBy: string;
   rowCount: number;
+  columns: Array<HeadCell>;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
@@ -126,6 +203,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     numSelected,
     rowCount,
     onRequestSort,
+    columns,
   } = props;
   const createSortHandler = (property: number | string) => (
     event: React.MouseEvent<unknown>,
@@ -144,20 +222,20 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             inputProps={{ "aria-label": "select all desserts" }}
           />
         </TableCell>
-        {headCells.map((headCell) => (
+        {columns.map((headCell) => (
           <TableCell
-            key={headCell['id']}
-            align={headCell['numeric'] ? "right" : "left"}
-            padding={headCell['disablePadding'] ? "none" : "default"}
-            sortDirection={orderBy === headCell['id'] ? order : false}
+            key={headCell.id}
+            align={headCell.numeric ? "right" : "left"}
+            padding={headCell.disablePadding ? "none" : "default"}
+            sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
-              active={orderBy === headCell['id']}
-              direction={orderBy === headCell['id'] ? order : "asc"}
-              onClick={createSortHandler(headCell['id'])}
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : "asc"}
+              onClick={createSortHandler(headCell.id)}
             >
-              {headCell['label']}
-              {orderBy === headCell['id'] ? (
+              {headCell["label"]}
+              {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
                   {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </span>
@@ -194,11 +272,12 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
+  title: string;
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const classes = useToolbarStyles();
-  const { numSelected } = props;
+  const { numSelected, title } = props;
 
   return (
     <Toolbar
@@ -222,7 +301,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          {title}
         </Typography>
       )}
       {numSelected > 0 ? (
@@ -268,22 +347,30 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+export interface DataTableRow {
+  id: number;
+  data: object;
+}
+
 interface DataTableProps {
-  rows?: Array<object>;
-  columns?: Array<object>;
+  rows: Array<DataTableRow>;
+  columns: Array<HeadCell>;
+  title: string;
 }
 
 export default function DataTable(props: DataTableProps) {
+  // Get data from props
+  const rows: Array<DataTableRow> = props.rows;
+  const columns: Array<HeadCell> = props.columns;
+  const title: string = props.title;
+
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<string>("calories");
+  const [orderBy, setOrderBy] = React.useState<string>(columns[0].id);
   const [selected, setSelected] = React.useState<string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  // Get data from props
-  const rows: Array<object>= props.rows ? props.rows : defaultRows;
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -296,7 +383,7 @@ export default function DataTable(props: DataTableProps) {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n['name']);
+      const newSelecteds = rows.map((n) => n["name"]);
       setSelected(newSelecteds);
       return;
     }
@@ -343,10 +430,12 @@ export default function DataTable(props: DataTableProps) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
+  console.log("rendering", rows, columns);
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} title={title} />
         <TableContainer>
           <Table
             className={classes.table}
@@ -362,53 +451,55 @@ export default function DataTable(props: DataTableProps) {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
+              columns={columns}
             />
-            <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row['name'].toString());
-                  const labelId = `enhanced-table-checkbox-${index}`;
+            
+            {true ? (
+              <TableBody>
+                {stableSort(
+                  rows.map((item: DataTableRow, index): any => item.data),
+                  getComparator(order, orderBy),
+                )
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    console.log(row);
 
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) =>
-                        handleClick(event, row['name'].toString())
-                      }
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row['name']}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          inputProps={{ "aria-labelledby": labelId }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
+                    const isItemSelected = isSelected(row["name"].toString());
+                    const labelId = `enhanced-table-checkbox-${index}`;
+
+                    return (
+                      <TableRow
+                        hover
+                        onClick={(event) =>
+                          handleClick(event, row["name"].toString())
+                        }
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row["name"]}
+                        selected={isItemSelected}
                       >
-                        {row['name']}
-                      </TableCell>
-                      <TableCell align="right">{row['calories']}</TableCell>
-                      <TableCell align="right">{row['fat']}</TableCell>
-                      <TableCell align="right">{row['carbs']}</TableCell>
-                      <TableCell align="right">{row['protein']}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            checked={isItemSelected}
+                            inputProps={{ "aria-labelledby": labelId }}
+                          />
+                        </TableCell>
+                        {Object.values(row).map((item, index) => (
+                          <TableCell>{item}</TableCell>
+                        ))}
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            ) : (
+              <></>
+            )}
           </Table>
         </TableContainer>
         <TablePagination

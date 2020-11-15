@@ -64,25 +64,4 @@ export default function ProjectItem(props: ProjectItemProps) {
       </Card>
     </Box>
   );
-
-  // <Card>
-  //     <CardActionArea>
-  //       <CardContent>
-  //         <Typography gutterBottom variant="h5" component="h2">
-  //           {project.name}
-  //         </Typography>
-  //         <Typography variant="body2" color="textSecondary" component="p">
-  //           {project.description}
-  //         </Typography>
-  //       </CardContent>
-  //     </CardActionArea>
-  //     <CardActions>
-  //       <Button size="small" color="primary">
-  //         {project.description}
-  //       </Button>
-  //       <Button size="small" color="primary">
-  //         {project.description}
-  //       </Button>
-  //     </CardActions>
-  //   </Card>
 }
