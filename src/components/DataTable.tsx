@@ -357,8 +357,6 @@ export default function DataTable(props: DataTableProps) {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
-                  console.log(isItemSelected, row.id);
-
                   return (
                     <TableRow
                       hover
