@@ -4,6 +4,53 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core";
 import { Company } from "../types/api";
 import DataTable, { HeadCell, DataTableRow } from "./DataTable";
 
+import * as faker from "faker";
+
+/**
+ * Mock Company here for simplicity.
+ * @returns {Company}  - Generated Company.
+ */
+const makeCompany = (): Company => {
+  return {
+    id: faker.random.number(),
+    projectId: faker.random.number(),
+    name: faker.commerce.productName(),
+    url: faker.internet.url(),
+    displayUrl: {
+      yandex: `yandex.${faker.internet.url().split("//")[1]}`,
+      google: [
+        `google1.${faker.internet.url().split("//")[1]}`,
+        `google2.${faker.internet.url().split("//")[1]}`,
+      ],
+    },
+    regions: [
+      {
+        id: faker.random.number(),
+        name: faker.address.city(),
+      },
+      {
+        id: faker.random.number(),
+        name: faker.address.city(),
+      },
+    ],
+    businessCards: [
+      {
+        id: faker.random.number(),
+        name: faker.company.companyName(),
+        workingHours: `10:00 - 22:00`,
+        tel: faker.phone.phoneNumber(),
+        about: faker.company.catchPhrase(),
+        street: faker.address.streetName(),
+        house: faker.random.number(100).toString(),
+        city: faker.address.city(),
+        country: faker.address.country(),
+      },
+    ],
+    keys: [],
+    minusKeys: [],
+  };
+};
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     table: {
@@ -18,174 +65,17 @@ export interface CompanyListProps {}
 export default function CompanyList(props: CompanyListProps) {
   const classes = useStyles();
 
-  const columns: Array<HeadCell> = [
-    {
-      id: "id",
-      label: "Ticker",
-      disablePadding: false,
-      numeric: true,
-    },
-    {
-      id: "name",
-      label: "name",
-      disablePadding: false,
-      numeric: true,
-    },
-    {
-      id: "url",
-      label: "url",
-      disablePadding: false,
-      numeric: true,
-    },
-    {
-      id: "yandex",
-      label: "yandex",
-      disablePadding: false,
-      numeric: true,
-    },
-    {
-      id: "google1",
-      label: "google1",
-      disablePadding: false,
-      numeric: true,
-    },
-    {
-      id: "google2",
-      label: "google2",
-      disablePadding: false,
-      numeric: true,
-    },
-    {
-      id: "dailyBudget",
-      label: "Daily budget",
-      disablePadding: false,
-      numeric: true,
-    },
-    {
-      id: "region",
-      label: "region",
-      disablePadding: false,
-      numeric: true,
-    },
-    {
-      id: "BusinessCard",
-      label: "Business card",
-      disablePadding: false,
-      numeric: true,
-    },
-    {
-      id: "ctr",
-      label: "ctr",
-      disablePadding: false,
-      numeric: true,
-    },
-  ];
-
   const companyList: Array<Company> = [
-    {
-      id: 1,
-      projectId: 1,
-      name: "Company 1",
-      url: "company1.com",
-      displayUrl: {
-        yandex: "yandex.company1.com",
-        google: ["google1.company1.com", "google2.company1.com"],
-      },
-      regions: [
-        {
-          id: 1,
-          name: "EKB",
-        },
-        {
-          id: 2,
-          name: "CHL",
-        },
-      ],
-      businessCards: [
-        {
-          id: 1,
-          name: "card name",
-          workingHours: "10:00 - 21:00",
-          tel: "88005553535",
-          about: "This is a company business card",
-          street: "Gotvalda",
-          house: "11",
-          city: "Yekaterinburg",
-          country: "Russia",
-        },
-      ],
-      keys: [],
-      minusKeys: [],
-    },
-    {
-      id: 2,
-      projectId: 1,
-      name: "Company 1",
-      url: "company1.com",
-      displayUrl: {
-        yandex: "yandex.company1.com",
-        google: ["google1.company1.com", "google2.company1.com"],
-      },
-      regions: [
-        {
-          id: 1,
-          name: "EKB",
-        },
-        {
-          id: 2,
-          name: "CHL",
-        },
-      ],
-      businessCards: [
-        {
-          id: 1,
-          name: "card name",
-          workingHours: "10:00 - 21:00",
-          tel: "88005553535",
-          about: "This is a company business card",
-          street: "Gotvalda",
-          house: "11",
-          city: "Yekaterinburg",
-          country: "Russia",
-        },
-      ],
-      keys: [],
-      minusKeys: [],
-    },    {
-      id: 3,
-      projectId: 1,
-      name: "Company 1",
-      url: "company1.com",
-      displayUrl: {
-        yandex: "yandex.company1.com",
-        google: ["google1.company1.com", "google2.company1.com"],
-      },
-      regions: [
-        {
-          id: 1,
-          name: "EKB",
-        },
-        {
-          id: 2,
-          name: "CHL",
-        },
-      ],
-      businessCards: [
-        {
-          id: 1,
-          name: "card name",
-          workingHours: "10:00 - 21:00",
-          tel: "88005553535",
-          about: "This is a company business card",
-          street: "Gotvalda",
-          house: "11",
-          city: "Yekaterinburg",
-          country: "Russia",
-        },
-      ],
-      keys: [],
-      minusKeys: [],
-    },
+    makeCompany(),
+    makeCompany(),
+    makeCompany(),
+    makeCompany(),
+    makeCompany(),
+    makeCompany(),
+    makeCompany(),
+    makeCompany(),
+    makeCompany(),
+    makeCompany(),
   ];
 
   const rows: Array<DataTableRow> = companyList.map(
@@ -207,6 +97,27 @@ export default function CompanyList(props: CompanyListProps) {
       };
     },
   );
+  const columnNames: string[] = [
+    "id",
+    "name",
+    "url",
+    "yandex",
+    "google1",
+    "google2",
+    "dailyBudget",
+    "region",
+    "businessCard",
+    "ctr",
+  ];
+
+  const columns: Array<HeadCell> = columnNames.map((item) => {
+    return {
+      id: item,
+      label: item,
+      disablePadding: false,
+      numeric: true,
+    };
+  });
 
   return <DataTable rows={rows} columns={columns} title="Companies" />;
 }

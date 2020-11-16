@@ -239,6 +239,9 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+/**
+ * @param {number} id - UNIQUE id.
+ */
 export interface DataTableRow {
   id: number;
   data: object;
@@ -275,7 +278,7 @@ export default function DataTable(props: DataTableProps) {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map(row => row.data['id']);
+      const newSelecteds = rows.map((row) => row.id);
       console.log(newSelecteds);
       setSelected(newSelecteds);
       return;
@@ -323,8 +326,6 @@ export default function DataTable(props: DataTableProps) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-  console.log(selected);
-
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -349,24 +350,25 @@ export default function DataTable(props: DataTableProps) {
 
             <TableBody>
               {stableSort(
-                rows.map((item: DataTableRow, index): any => item.data),
+                rows.map((item: DataTableRow, index): any => {
+                  const data = item.data;
+                  return { ...data, __id: item.id };
+                }),
                 getComparator(order, orderBy),
               )
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
+                  const isItemSelected = isSelected(row.__id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) =>
-                        handleClick(event, row.id)
-                      }
+                      onClick={(event) => handleClick(event, row.__id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.id}
+                      key={row.__id}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
