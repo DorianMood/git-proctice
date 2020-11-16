@@ -118,7 +118,7 @@ export default function CompanyList(props: CompanyListProps) {
       minusKeys: [],
     },
     {
-      id: 1,
+      id: 2,
       projectId: 1,
       name: "Company 1",
       url: "company1.com",
@@ -152,7 +152,7 @@ export default function CompanyList(props: CompanyListProps) {
       keys: [],
       minusKeys: [],
     },    {
-      id: 1,
+      id: 3,
       projectId: 1,
       name: "Company 1",
       url: "company1.com",

@@ -28,104 +28,6 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
-function createData(data: object): object {
-  return data;
-}
-
-const defaultRows = [
-  createData({
-    name: "cupcake",
-    calories: 305,
-    protein: 3.7,
-    fat: 67,
-    carbs: 4.3,
-  }),
-  createData({
-    name: "Donut",
-    calories: 452,
-    protein: 25.0,
-    fat: 51,
-    carbs: 4.9,
-  }),
-  createData({
-    name: "Eclair",
-    calories: 262,
-    protein: 16.0,
-    fat: 24,
-    carbs: 6.0,
-  }),
-  createData({
-    name: "Frozen yoghurt",
-    calories: 159,
-    protein: 6.0,
-    fat: 24,
-    carbs: 4.0,
-  }),
-  createData({
-    name: "Gingerbread",
-    calories: 356,
-    protein: 16.0,
-    fat: 49,
-    carbs: 3.9,
-  }),
-  createData({
-    name: "Honeycomb",
-    calories: 408,
-    protein: 3.2,
-    fat: 87,
-    carbs: 6.5,
-  }),
-  createData({
-    name: "Ice cream: sandwich",
-    calories: 237,
-    protein: 9.0,
-    fat: 37,
-    carbs: 4.3,
-  }),
-  createData({
-    name: "Jelly Bean: ",
-    calories: 375,
-    protein: 0.0,
-    fat: 94,
-    carbs: 0.0,
-  }),
-  createData({
-    name: "KitKat",
-    calories: 518,
-    protein: 26.0,
-    fat: 65,
-    carbs: 7.0,
-  }),
-  createData({
-    name: "Lollipop",
-    calories: 392,
-    protein: 0.2,
-    fat: 98,
-    carbs: 0.0,
-  }),
-  createData({
-    name: "Marshmallow",
-    calories: 318,
-    protein: 0.81,
-    fat: 2.1,
-    carbs: 0,
-  }),
-  createData({
-    name: "Nougat",
-    calories: 360,
-    protein: 19.0,
-    fat: 9,
-    carbs: 37.0,
-  }),
-  createData({
-    name: "Oreo",
-    calories: 437,
-    protein: 18.0,
-    fat: 63,
-    carbs: 4.0,
-  }),
-];
-
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -150,7 +52,10 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) : Array<T> {
+function stableSort<T>(
+  array: T[],
+  comparator: (a: T, b: T) => number,
+): Array<T> {
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -166,19 +71,6 @@ export interface HeadCell {
   label: string;
   numeric: boolean;
 }
-
-const defaultColumns: Array<HeadCell> = [
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: true,
-    label: "Dessert (100g serving)",
-  },
-  { id: "calories", numeric: true, disablePadding: false, label: "Calories" },
-  { id: "fat", numeric: true, disablePadding: false, label: "Fat (g)" },
-  { id: "carbs", numeric: true, disablePadding: false, label: "Carbs (g)" },
-  { id: "protein", numeric: true, disablePadding: false, label: "Protein (g)" },
-];
 
 interface EnhancedTableProps {
   classes: ReturnType<typeof useStyles>;
@@ -367,7 +259,7 @@ export default function DataTable(props: DataTableProps) {
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<string>(columns[0].id);
-  const [selected, setSelected] = React.useState<string[]>([]);
+  const [selected, setSelected] = React.useState<number[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -383,19 +275,20 @@ export default function DataTable(props: DataTableProps) {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n["name"]);
+      const newSelecteds = rows.map(row => row.data['id']);
+      console.log(newSelecteds);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: string[] = [];
+  const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected: number[] = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -425,12 +318,12 @@ export default function DataTable(props: DataTableProps) {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
+  const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-  console.log("rendering", rows, columns);
+  console.log(selected);
 
   return (
     <div className={classes.root}>
@@ -453,53 +346,49 @@ export default function DataTable(props: DataTableProps) {
               rowCount={rows.length}
               columns={columns}
             />
-            
-            {true ? (
-              <TableBody>
-                {stableSort(
-                  rows.map((item: DataTableRow, index): any => item.data),
-                  getComparator(order, orderBy),
-                )
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                    console.log(row);
 
-                    const isItemSelected = isSelected(row["name"].toString());
-                    const labelId = `enhanced-table-checkbox-${index}`;
+            <TableBody>
+              {stableSort(
+                rows.map((item: DataTableRow, index): any => item.data),
+                getComparator(order, orderBy),
+              )
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => {
+                  const isItemSelected = isSelected(row.id);
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
-                    return (
-                      <TableRow
-                        hover
-                        onClick={(event) =>
-                          handleClick(event, row["name"].toString())
-                        }
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={row["name"]}
-                        selected={isItemSelected}
-                      >
-                        <TableCell padding="checkbox">
-                          <Checkbox
-                            checked={isItemSelected}
-                            inputProps={{ "aria-labelledby": labelId }}
-                          />
-                        </TableCell>
-                        {Object.values(row).map((item, index) => (
-                          <TableCell>{item}</TableCell>
-                        ))}
-                      </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            ) : (
-              <></>
-            )}
+                  console.log(isItemSelected, row.id);
+
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) =>
+                        handleClick(event, row.id)
+                      }
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.id}
+                      selected={isItemSelected}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={isItemSelected}
+                          inputProps={{ "aria-labelledby": labelId }}
+                        />
+                      </TableCell>
+                      {Object.values(row).map((item, index) => (
+                        <TableCell>{item}</TableCell>
+                      ))}
+                    </TableRow>
+                  );
+                })}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
