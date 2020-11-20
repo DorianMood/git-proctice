@@ -165,11 +165,12 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
 interface EnhancedTableToolbarProps {
   numSelected: number;
   title: string;
+  onDelete: React.MouseEventHandler;
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const classes = useToolbarStyles();
-  const { numSelected, title } = props;
+  const { numSelected, title, onDelete } = props;
 
   return (
     <Toolbar
@@ -198,7 +199,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       )}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton aria-label="delete">
+          <IconButton aria-label="delete" onClick={onDelete}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -255,7 +256,7 @@ interface DataTableProps {
 
 export default function DataTable(props: DataTableProps) {
   // Get data from props
-  const rows: Array<DataTableRow> = props.rows;
+  const [rows, setRows] = React.useState<DataTableRow[]>(props.rows);
   const columns: Array<HeadCell> = props.columns;
   const title: string = props.title;
 
@@ -321,6 +322,14 @@ export default function DataTable(props: DataTableProps) {
     setDense(event.target.checked);
   };
 
+  const handleDelete = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const newRows = rows.filter((item, index) => {
+      return !selected.includes(item.id);
+    });
+    setSelected([]);
+    setRows(newRows);
+  };
+
   const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
   const emptyRows =
@@ -329,7 +338,7 @@ export default function DataTable(props: DataTableProps) {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} title={title} />
+        <EnhancedTableToolbar numSelected={selected.length} title={title} onDelete={handleDelete} />
         <TableContainer>
           <Table
             className={classes.table}
