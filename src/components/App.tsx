@@ -1,7 +1,7 @@
 import * as React from "react";
 import { hot } from "react-hot-loader";
 
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 
 import { Box, Fab } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
@@ -13,6 +13,7 @@ import ProjectsPage from "./ProjectsPage";
 import "./../assets/scss/App.scss";
 import TemplatePage from "./TemplatePage";
 import ProjectPage from "./ProjectPage";
+import CreateCompanyPage from "./CreateCompanyPage";
 
 interface AppProps {}
 
@@ -32,6 +33,9 @@ const App = (props: AppProps) => {
         <Route path="/templates">
           <TemplatePage />
         </Route>
+        <Route path="/company/create">
+          <CreateCompanyPage />
+        </Route>
 
         {/* Routes */}
         <Route path="/project/:id">
@@ -44,8 +48,10 @@ const App = (props: AppProps) => {
           </Box>
         </Route>
       </Switch>
-      <Fab color="primary" aria-label="add" style={{float: "right", right: "20px", bottom: "20px"}}>
-        <AddIcon />
+      <Fab color="primary" aria-label="add" style={{ position: "fixed", float: "right", right: "20px", bottom: "20px"}}>
+        <Link to="/company/create" style={{color: "inherit", lineHeight: "0px"}}>
+          <AddIcon />
+        </Link>
       </Fab>
       <Footer />
     </BrowserRouter>
