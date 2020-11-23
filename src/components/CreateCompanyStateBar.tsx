@@ -6,6 +6,9 @@ import {
   Breadcrumbs,
   Link,
   Typography,
+  Stepper,
+  Step,
+  StepLabel,
 } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/HomeOutlined";
 import WhatshotIcon from "@material-ui/icons/WhatsApp";
@@ -25,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface CreateCompanyStateBarProps {
   current: number;
+  steps: string[];
 }
 
 export default function CreateCompanyStateBar(
@@ -32,26 +36,13 @@ export default function CreateCompanyStateBar(
 ) {
   const classes = useStyles();
 
-  const { current } = props;
+  const { current, steps } = props;
 
   return (
-    <Breadcrumbs aria-label="breadcrumb">
-      <Link color="inherit" href="/" className={classes.link}>
-        <HomeIcon className={classes.icon} />
-        Material-UI
-      </Link>
-      <Link
-        color="inherit"
-        href="/getting-started/installation/"
-        className={classes.link}
-      >
-        <WhatshotIcon className={classes.icon} />
-        Core
-      </Link>
-      <Typography color="textPrimary" className={classes.link}>
-        <HomeIcon className={classes.icon} />
-        Breadcrumb
-      </Typography>
-    </Breadcrumbs>
+    <Stepper alternativeLabel activeStep={current}>
+      {steps.map((step, index) => <Step key={index}>
+        <StepLabel>{step}</StepLabel>
+      </Step>)}
+    </Stepper>
   );
 }
