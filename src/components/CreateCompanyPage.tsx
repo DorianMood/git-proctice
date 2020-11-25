@@ -51,6 +51,8 @@ export default function CreateCompanyPage(props: CreateCompanyPageProps) {
       currentForm = <CreateCompanyForm1 />;
     case 2:
       currentForm = <CreateCompanyForm2 />;
+    case 3:
+      currentForm = <CreateCompanyForm3 />;
   }
 
   return (
