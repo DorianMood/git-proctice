@@ -7,7 +7,7 @@ import {
   Box,
 } from "@material-ui/core";
 import CreateCompanyStateBar from "./CreateCompanyStateBar";
-import { CreateCompanyForm1, CreateCompanyForm2 } from "./CreateCompanyForms";
+import { CreateCompanyForm1, CreateCompanyForm2, CreateCompanyForm3, CreateCompanyForm4 } from "./CreateCompanyForms";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,6 +53,8 @@ export default function CreateCompanyPage(props: CreateCompanyPageProps) {
       currentForm = <CreateCompanyForm2 />;
     case 3:
       currentForm = <CreateCompanyForm3 />;
+    case 4:
+      currentForm = <CreateCompanyForm4 />;
   }
 
   return (

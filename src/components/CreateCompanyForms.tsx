@@ -102,3 +102,16 @@ export const CreateCompanyForm3 = () => {
     </form>
   );
 };
+
+export const CreateCompanyForm4 = () => {
+  return (
+    <form>
+      <div>
+        <Typography variant="h5">Form 4</Typography>
+      </div>
+      <div>
+
+      </div>
+    </form>
+  );
+};
