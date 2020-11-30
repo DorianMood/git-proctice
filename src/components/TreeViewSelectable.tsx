@@ -9,7 +9,8 @@ export interface TreeViewSelectableNodeData {
 }
 
 export interface TreeViewSelectableNode {
-  id: string;
+  id?: string | number;
+  parentId?: string | number | null;
   children?: TreeViewSelectableNode[];
   [key: string]: any;
 }
@@ -19,21 +20,8 @@ interface TreeViewSelectableProps {
 }
 
 const buildTree = (items: any[]): TreeViewSelectableNode => {
-/*
-  const root: any = {
-    id: 0,
-    parentId: null,
-    name: "All",
-  };
-
-  const data = items.map((item, index) => {
-    return item.parentId ? item : {...item, parentId: 0}
-  });
-  data.push(root);
-*/
-  const tree: ITreeItem[] = arrayToTree(items)
-  console.log('tree', tree);
-  return {id: "", data: { name: "All" }};//regions.reduce(reducer, {})[""];
+  const tree: TreeViewSelectableNode[] = arrayToTree(items);
+  return {id: 0, children: tree, name: ""};
 };
 
 export default function TreeViewSelectable(props: TreeViewSelectableProps) {
@@ -42,10 +30,11 @@ export default function TreeViewSelectable(props: TreeViewSelectableProps) {
   const [selected, setSelected] = React.useState<string[]>([]);
 
   const buildItems = (tree: TreeViewSelectableNode) => {
+    console.log(`Item`, tree);
     return (
       <TreeItem
         key={tree.id}
-        nodeId={tree.id}
+        nodeId={tree.id?.toString()}
         label={
           <FormControlLabel
             control={
@@ -54,7 +43,7 @@ export default function TreeViewSelectable(props: TreeViewSelectableProps) {
                 onClick={(e) => e.stopPropagation()}
               />
             }
-            label={<>{tree.data.name}</>}
+            label={<>{tree.data?.name}</>}
             key={tree.id}
           />
         }

@@ -214,7 +214,7 @@ export const CompanyMainInfoForm = (props: CreateCompanyFormProps) => {
         </FormGroup>
       </div>
       <div>
-        <TextField id="outlined-basic" label="URL" variant="outlined" />
+        <TextField label="URL" variant="outlined" />
       </div>
       <div>
         <Select
@@ -223,21 +223,19 @@ export const CompanyMainInfoForm = (props: CreateCompanyFormProps) => {
             console.log(1);
           }}
         >
-          {businessCardsDefaults.map((item) => {
-            return <MenuItem value={item}>{item}</MenuItem>;
+          {businessCardsDefaults.map((item, index) => {
+            return <MenuItem value={item} key={index}>{item}</MenuItem>;
           })}
         </Select>
       </div>
       <div>
         <TextField
-          id="outlined-basic"
           label="Regions to show"
           variant="outlined"
         />
       </div>
       <div>
         <TextField
-          id="outlined-basic"
           label="Regions to hide"
           variant="outlined"
         />
