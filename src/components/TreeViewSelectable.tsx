@@ -5,20 +5,27 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { arrayToTree, TreeItem as ITreeItem } from "performant-array-to-tree";
 import * as React from "react";
 
-export interface TreeViewSelectableNodeData {
+interface TreeViewSelectableNodeData {
   name: string;
   [key: string]: any;
 }
 
-export interface TreeViewSelectableNode {
+interface TreeViewSelectableNode {
   id?: string | number;
   parentId?: string | number | null;
   children?: TreeViewSelectableNode[];
   [key: string]: any;
 }
 
+interface TreeViewSelectablePropsData {
+  id: number | string;
+  parentId?: number | string;
+  name: string;
+  [key: string]: any;
+}
+
 interface TreeViewSelectableProps {
-  data: (any)[];
+  data: TreeViewSelectablePropsData[];
 }
 
 const buildTree = (items: any[]): TreeViewSelectableNode => {

@@ -18,12 +18,8 @@ import {
   createStyles,
   Theme,
 } from "@material-ui/core";
-import { arrayToTree, TreeItem } from "performant-array-to-tree";
 import * as React from "react";
-import { rootCertificates } from "tls";
-import TreeViewSelectable, {
-  TreeViewSelectableNode, TreeViewSelectableNodeData,
-} from "./TreeViewSelectable";
+import TreeViewSelectable from "./TreeViewSelectable";
 
 interface CreateCompanyFormProps {}
 
