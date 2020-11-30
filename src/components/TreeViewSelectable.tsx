@@ -21,7 +21,8 @@ interface TreeViewSelectableProps {
 
 const buildTree = (items: any[]): TreeViewSelectableNode => {
   const tree: TreeViewSelectableNode[] = arrayToTree(items);
-  return {id: 0, children: tree, name: ""};
+  console.log(tree);
+  return {id: 0, children: tree, data: {id: 0, name: "All"}};
 };
 
 export default function TreeViewSelectable(props: TreeViewSelectableProps) {
@@ -30,21 +31,21 @@ export default function TreeViewSelectable(props: TreeViewSelectableProps) {
   const [selected, setSelected] = React.useState<string[]>([]);
 
   const buildItems = (tree: TreeViewSelectableNode) => {
-    console.log(`Item`, tree);
+    console.log(`Item`, tree.data?.name, tree.data?.id, tree.children.length);
     return (
       <TreeItem
-        key={tree.id}
-        nodeId={tree.id?.toString()}
+        key={tree.data?.id}
+        nodeId={tree.data?.id?.toString()}
         label={
           <FormControlLabel
             control={
               <Checkbox
-                checked={selected.some((item) => item === tree.id)}
+                checked={selected.some((item) => item === tree.data?.id)}
                 onClick={(e) => e.stopPropagation()}
               />
             }
             label={<>{tree.data?.name}</>}
-            key={tree.id}
+            key={tree.data?.id}
           />
         }
       >
