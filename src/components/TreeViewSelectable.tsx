@@ -1,5 +1,7 @@
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 import { TreeItem, TreeView } from "@material-ui/lab";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { arrayToTree, TreeItem as ITreeItem } from "performant-array-to-tree";
 import * as React from "react";
 
@@ -16,13 +18,12 @@ export interface TreeViewSelectableNode {
 }
 
 interface TreeViewSelectableProps {
-  data: any[];
+  data: (any)[];
 }
 
 const buildTree = (items: any[]): TreeViewSelectableNode => {
   const tree: TreeViewSelectableNode[] = arrayToTree(items);
-  console.log(tree);
-  return {id: 0, children: tree, data: {id: 0, name: "All"}};
+  return { id: 0, children: tree, data: { id: 0, name: "All" } };
 };
 
 export default function TreeViewSelectable(props: TreeViewSelectableProps) {
@@ -31,7 +32,10 @@ export default function TreeViewSelectable(props: TreeViewSelectableProps) {
   const [selected, setSelected] = React.useState<string[]>([]);
 
   const buildItems = (tree: TreeViewSelectableNode) => {
-    console.log(`Item`, tree.data?.name, tree.data?.id, tree.children.length);
+    const onChange = (checked: boolean, tree: TreeViewSelectableNode): void => {
+      // Change this node and all children nodes
+    };
+
     return (
       <TreeItem
         key={tree.data?.id}
@@ -41,6 +45,9 @@ export default function TreeViewSelectable(props: TreeViewSelectableProps) {
             control={
               <Checkbox
                 checked={selected.some((item) => item === tree.data?.id)}
+                onChange={(event) =>
+                  onChange(event.currentTarget.checked, tree)
+                }
                 onClick={(e) => e.stopPropagation()}
               />
             }
@@ -57,5 +64,12 @@ export default function TreeViewSelectable(props: TreeViewSelectableProps) {
   const tree = buildTree(data);
   const treeItems = buildItems(tree);
 
-  return <TreeView>{treeItems}</TreeView>;
+  return (
+    <TreeView
+      defaultCollapseIcon={<ExpandMoreIcon />}
+      defaultExpandIcon={<ChevronRightIcon />}
+    >
+      {treeItems}
+    </TreeView>
+  );
 }
