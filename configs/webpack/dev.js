@@ -12,6 +12,9 @@ module.exports = merge(commonConfig, {
     './index.tsx' // the entry point of our app
   ],
   devServer: {
+    headers: {
+      "Access-Control-Allow-Origin": "*"
+    },
     hot: true, // enable HMR on the server
   },
   devtool: 'cheap-module-eval-source-map',

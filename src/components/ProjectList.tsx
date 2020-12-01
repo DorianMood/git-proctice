@@ -13,7 +13,6 @@ export default function ProjectList(props: ProjectListProps) {
     { id: 124, name: 'Test2', description: 'Test2 description.'},
     { id: 125, name: 'Test3', description: 'Test3 description.'},
   ];
-  
   return (
     <Container>
       {
